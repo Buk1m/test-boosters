@@ -18,7 +18,19 @@ module TestBoosters
       end
 
       def command
-        @command ||= "bundle exec rspec #{rspec_options}"
+        if command_set_with_env_var?
+          @command ||= "#{command_from_env_var} #{rspec_options}"
+        else
+          @command ||= "bundle exec rspec #{rspec_options}"
+        end
+      end
+
+      def command_set_with_env_var?
+        !command_from_env_var.empty?
+      end
+
+      def command_from_env_var
+        ENV["RSPEC_BOOSTER_COMMAND"].to_s
       end
 
       def rspec_options
