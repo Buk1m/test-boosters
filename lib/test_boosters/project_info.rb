@@ -18,7 +18,7 @@ module TestBoosters
       cmd = ENV["RSPEC_BOOSTER_COMMAND"].to_s
       command = nil
       
-      if cmd.present? 
+      if !cmd.empty? 
         command = "#{cmd} --version | head -1 || echo 'not found'"
       else
         command = "(bundle list | grep -q '* rspec') && (bundle exec rspec --version | head -1) || echo 'not found'"
