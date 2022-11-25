@@ -15,7 +15,15 @@ module TestBoosters
     end
 
     def display_rspec_version
-      command = "(bundle list | grep -q '* rspec') && (bundle exec rspec --version | head -1) || echo 'not found'"
+      cmd = ENV["RSPEC_BOOSTER_COMMAND"].to_s
+      command = nil
+      
+      if cmd.present? 
+        command = "#{cmd} --version | head -1 || echo 'not found'"
+      else
+        command = "(bundle list | grep -q '* rspec') && (bundle exec rspec --version | head -1) || echo 'not found'"
+      end
+     
       version = TestBoosters::Shell.evaluate(command)
 
       puts "RSpec Version: #{version}"
